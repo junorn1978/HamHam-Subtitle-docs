@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ハムハム字幕アトリエ説明</title>
+    <meta name="description" content="このページでは、ソフトウェアの使い方や操作方法についてご案内します。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Prism.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-powershell.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-http.min.js"></script>
+    <style>
+      /* 粉彩卡片式主題（不使用任何角色名稱） */
+      :root {
+        --bg: #f6f2f6;            /* 柔霧粉紫底色（降低亮度） */
+        --bg-2: #eef3f8;          /* 霧感淡藍（降低亮度） */
+        --panel: #ffffff;         /* 卡片/面板底色 */
+        --text: #2b283a;          /* 主要文字：深灰紫 */
+        --muted: #6b7280;         /* 次要文字 */
+        --brand: #ff9ac2;         /* 主色：粉 */
+        --brand-2: #a8d8ff;       /* 輔色：淺藍 */
+        --brand-3: #b8f2e6;       /* 輔色：薄荷綠 */
+        --brand-4: #fde68a;       /* 輔色：奶油黃 */
+        --border: #e9deec;        /* 邊框：更柔和淡紫粉 */
+        --code-bg: #f8f4fb;       /* 程式碼底：柔霧淡紫 */
+        --accent: #8b5cf6;        /* 連結：柔紫 */
+        --shadow-1: 0 4px 12px rgba(255, 154, 194, 0.12), 0 1px 3px rgba(17, 24, 39, 0.05);
+        --shadow-2: 0 10px 24px rgba(168, 216, 255, 0.12), 0 2px 6px rgba(17, 24, 39, 0.05);
+      }
+
+      html, body {
+        margin: 0; padding: 0; height: 100%;
+        background:
+          linear-gradient(180deg, rgba(255,154,194,0.06), rgba(168,216,255,0.05)) fixed,
+          linear-gradient(0deg, var(--bg), var(--bg-2)) fixed;
+        color: var(--text);
+        font-family: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, "Noto Sans TC", "PingFang TC", "Hiragino Sans", "Microsoft JhengHei", system-ui, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+      }
+
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      header {
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(255,154,194,0.14), rgba(168,216,255,0.12));
+        box-shadow: var(--shadow-1);
+      }
+
+      .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+      .title { font-size: 28px; margin: 4px 0 8px; letter-spacing: 0.5px; }
+      .subtitle { color: var(--muted); margin: 0 0 8px; }
+      .tag {
+        display: inline-block; padding: 6px 12px; border: 1px solid var(--border);
+        border-radius: 999px; color: var(--muted); font-size: 12px; background: #fff;
+        box-shadow: var(--shadow-1);
+      }
+
+      .layout { display: grid; grid-template-columns: 260px 1fr; gap: 24px; }
+      nav { position: sticky; top: 12px; align-self: start; }
+
+      .toc {
+        list-style: none; margin: 0; padding: 0;
+        border: 1px solid var(--border); border-radius: 16px; background: var(--panel);
+        box-shadow: var(--shadow-1);
+        overflow: hidden;
+      }
+      .toc li { border-bottom: 1px solid var(--border); }
+      .toc li:last-child { border-bottom: 0; }
+      .toc a { display: block; padding: 12px 14px; color: var(--text); }
+      .toc a:hover, .toc a.active { background: #fff4f8; color: #6d28d9; }
+      .toc .toc-sub { padding: 0 0 8px 6px; }
+      .toc .toc-sub a { font-size: 13px; padding: 8px 14px 8px 22px; }
+
+      main { min-width: 0; }
+
+      section {
+        margin: 8px 0 28px; padding: 20px;
+        border: 1px solid var(--border); border-radius: 16px; background: var(--panel);
+        box-shadow: var(--shadow-2);
+        position: relative;
+      }
+      section::before {
+        content: ""; position: absolute; left: 0; top: 0; right: 0; height: 6px;
+        background: linear-gradient(90deg, var(--brand), var(--brand-2), var(--brand-3));
+        border-top-left-radius: 16px; border-top-right-radius: 16px;
+      }
+
+      h2 { margin: 6px 0 14px; font-size: 22px; scroll-margin-top: 96px; }
+      h3 { margin: 20px 0 8px; font-size: 18px; scroll-margin-top: 96px; }
+      p { margin: 8px 0; }
+
+      .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+      /* 將「概要＋主な特徴」改為垂直排版 */
+      #intro .grid { grid-template-columns: 1fr; gap: 16px; }
+      #intro .card { grid-column: 1 / -1; }
+      /* 將後端製作方式中的兩個方塊改為垂直排列 */
+      #backend .grid { grid-template-columns: 1fr; gap: 16px; }
+      #backend .card { grid-column: 1 / -1; }
+      .card {
+        grid-column: span 6; border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: #ffffff;
+        box-shadow: var(--shadow-1); position: relative;
+        min-width: 0; /* 允許在 grid/flex 中縮小，避免被長內容撐開 */
+      }
+      .card::before {
+        content: ""; position: absolute; left: 12px; right: 12px; top: 10px; height: 6px; border-radius: 999px;
+        background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 50%, var(--brand-3) 100%);
+        opacity: 0.6;
+      }
+      .card > *:first-child { margin-top: 10px; }
+
+      .muted { color: var(--muted); }
+      .kbd {
+        display: inline-block; padding: 2px 6px; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 8px; background: #fff;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px;
+        box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+      }
+
+      code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 16px; padding: 12px; overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+      .codeblock { position: relative; max-width: 100%; }
+      .copy {
+        position: absolute; top: 8px; right: 8px; background: linear-gradient(180deg, #fff, #fff7fb);
+        border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 6px 10px; cursor: pointer; font-size: 12px;
+        box-shadow: var(--shadow-1);
+      }
+      .copy:hover { filter: brightness(0.98); }
+
+      table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); margin: 10px 0; background: #fff; border-radius: 12px; overflow: hidden; }
+      th, td { border: 1px solid var(--border); padding: 10px; vertical-align: top; }
+      th { background: #fff1f7; text-align: left; }
+      tbody tr:nth-child(odd) { background: #fffdf7; }
+
+      details {
+        border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; background: #ffffff;
+        box-shadow: var(--shadow-1);
+      }
+      details + details { margin-top: 10px; }
+      summary { cursor: pointer; }
+
+      .note {
+        border-left: 4px solid var(--brand); padding: 12px 14px; background: #fff7fb; border-radius: 12px; box-shadow: var(--shadow-1);
+      }
+
+      footer { border-top: 1px solid var(--border); color: var(--muted); padding: 24px; text-align: center; }
+
+      @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } nav { position: relative; } .card { grid-column: span 12; } }
+
+      /* Slider */
+      .slider { position: relative; border: 1px solid var(--border); border-radius: 16px; background: #ffffff; box-shadow: var(--shadow-1); overflow: hidden; }
+      .slides { position: relative; aspect-ratio: 16 / 9; background: #fafafa; }
+      .slide { display: none; width: 100%; height: 100%; object-fit: contain; }
+      .slide.is-active { display: block; }
+      .slider-btn {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        background: rgba(255,255,255,0.9); border: 1px solid var(--border); border-radius: 999px;
+        width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; box-shadow: var(--shadow-1);
+        z-index: 2;
+      }
+      .slider-btn:hover { filter: brightness(0.98); }
+      .slider-btn.prev { left: 8px; }
+      .slider-btn.next { right: 8px; }
+      .slider-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .slider-dots { display: flex; gap: 6px; justify-content: center; padding: 10px; background: rgba(255,255,255,0.8); }
+      .slider-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--border); background: #e5e7eb; cursor: pointer; }
+      .slider-dot.is-active { background: var(--brand); border-color: var(--brand); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="tag">取扱説明</div>
+        <h1 class="title">ハムハム字幕アトリエ説明</h1>
+        <p class="subtitle">このページでは、ソフトウェアの使い方や操作方法についてご案内します。</p>
+      </div>
+    </header>
+
+    <div class="container layout">
+      <nav>
+        <ul class="toc" id="toc">
+          <li><a href="#intro">1. ソフトウェア概要</a></li>
+          <li><a href="#quickstart">2. クイックスタート</a></li>
+          <li><a href="#howto">3. 基本操作手順</a></li>
+          <li>
+            <a href="#backend">4. 翻訳APIの導入方法</a>
+            <ul class="toc-sub">
+              <li><a href="#backend-4-1">4.1 Google翻訳API</a></li>
+              <li><a href="#backend-4-2">4.2 OpenAI翻訳</a></li>
+              <li><a href="#backend-4-2-1">4.2.1 OpenAI アカウント・API キー・支払い</a></li>
+              <li><a href="#backend-4-3">4.3 Google Cloud アカウント/課金</a></li>
+              <li><a href="#backend-4-4">4.4 Cloud Run (Docker) デプロイ</a></li>
+            </ul>
+          </li>
+          <li><a href="#faq">5. よくある質問</a></li>
+        </ul>
+      </nav>
+
+      <main>
+        <section id="intro">
+          <h2>1.ソフトウェア概要</h2>
+          <p>ハムハム字幕アトリエ</p>
+          <div class="grid">
+            <div class="card">
+              <h3>『ハムハム字幕アトリエ』とは？</h3>
+              <p class="muted">『ハムハム字幕アトリエ』は、乙夏れいさんのファンが乙夏れいさんのために制作したツールです。主たる目的は、配信中の発言を翻訳し、その内容を画面上に表示することで、海外の視聴者にもある程度意味が伝わるようにすることです。</p>
+            </div>
+            <div class="card">
+              <h3>主な特徴</h3>
+              <ul class="muted">
+                <li>Web Speech APIを利用したブラウザでの音声認識</li>
+                <li>翻訳は、無料のGoogle翻訳API、もしくは有料のOpenAI・Gemini APIを利用して実行できます。</li>
+                <li>簡単な表示レイアウト機能やスタイルの調整が可能です。</li>
+                <li>入力したテキストメッセージを、日本語、中国語（台湾）、英語に翻訳することができます。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="note" style="margin-top:12px;">
+            現在の機械翻訳機能は、OpenAIなどのAIを利用しても、完全に正確な翻訳は難しいため、その点ご理解いただけますと幸いです。<BR><BR>
+            なお、OpenAIのAPIは文字単位で課金が発生するため、翻訳を使用する際は、海外のファンにご自身の発言を伝える必要性や優先度を考慮したうえで、ご利用をご検討ください。
+          </div>
+        </section>
+        <section id="quickstart">
+          <h2>2. クイックスタート</h2>
+          <ol>
+            <li>下載並安裝軟體。</li>
+            <li>首次啟動完成初始化精靈（語系、資料路徑）。</li>
+            <li>連線至資料來源，建立第一個專案。</li>
+          </ol>
+          <div class="codeblock">
+            <button class="copy" data-target="install">複製</button>
+            <pre id="install"><code class="language-powershell"># 以 Windows 為例（PowerShell）
+winget install ExampleVendor.ExampleApp
+
+# 或離線安裝
+Start-Process .\Installer.exe -ArgumentList "/silent" -Wait
+</code></pre>
+          </div>
+        </section>
+
+        <section id="howto">
+          <h2>3. 基本操作步驟</h2>
+          <ol>
+            <li>在「資料來源」頁面點選「新增」，選擇來源類型並輸入連線資訊。</li>
+            <li>於「模型」頁配置欄位與驗證規則。</li>
+            <li>至「儀表板」新增圖表元件並排列布局。</li>
+            <li>在「分享」設定權限與連結有效期限。</li>
+          </ol>
+        </section>
+
+        <section id="backend">
+          <h2>4. 翻訳APIの導入方法</h2>
+          <div class="note" style="margin:10px 0;">
+            設定項目の概要（簡易説明）：
+            <ul>
+              <li><strong>4.1 Google翻訳API</strong>：GAS の LanguageApp を用いた無料翻訳（1日上限あり）。</li>
+              <li><strong>4.2 OpenAI翻訳</strong>：高精度な翻訳（有料）。GAS 経由でのリアルタイム翻訳は非推奨。</li>
+              <li><strong>4.2.1 OpenAI アカウント・API キー・支払い</strong>：OpenAI の登録、API キー発行、クレジットカード登録。</li>
+              <li><strong>4.3 Google Cloud アカウント/課金</strong>：GCP プロジェクト作成、課金アカウント紐付け、予算設定。</li>
+              <li><strong>4.4 Cloud Run (Docker) デプロイ</strong>：Docker コンテナを Cloud Run へデプロイする手順。</li>
+            </ul>
+          </div>
+          <p>使用方法は、大きく分けて2種類あります。<br>
+             1つ目は、GASに内蔵されているGoogle翻訳APIを利用する方法です（無料で、1日あたり最大5,000文まで翻訳可能）。<br>
+             2つ目は、Google Cloud上にDocker環境を構築して利用するOpenAI翻訳です（有料で、設定が複雑ですが、翻訳精度が高く、より自然な訳文が得られます）。</p>
+          <h3 id="backend-4-1">4.1 Google翻訳API</h3>
+          <ul>
+            <p>Google Apps Scriptファイルを作成するには、以下の手順に従ってください。</p>
+            <li>ブラウザで <a href="https://script.google.com" target="_blank">script.google.com</a> を開きます。</li>
+            <li>「新しいプロジェクト」ボタンをクリックします。</li>
+            <li>プロジェクト名を入力します。</li>
+            <li>エディタ画面でコードを入力し、保存します。<BR>
+                コードは、以下のようになります。</li>
+          </ul>
+          <div class="grid">
+            <div class="card">
+              <h3>Google翻訳（無料で1日あたり5,000回まで利用可能です）</h3>
+              <div class="codeblock">
+                <button class="copy" data-target="backend-beginner">複製</button>
+                <pre id="backend-beginner"><code class="language-javascript">
+// Google 翻訳関数
+function translateWithGoogle(text, targetLang, sourceLang) {
+  if (!text || text.trim() === '' || text.trim() === 'っ') {
+    return '';
+  }
+
+  try {
+    const translatedText = LanguageApp.translate(text, sourceLang, targetLang);
+    return translatedText;
+  } catch (error) {
+    return `${error.message}`;
+  }
+}
+
+// Google Apps Script の GET エンドポイント
+function doGet(e) {
+  try {
+  const params = e.parameter;
+  const text = params.text || '';
+  const targetLangs = params.targetLangs ? JSON.parse(params.targetLangs) : [];
+  const sourceLang = '';
+  const sequenceId = params.sequenceId ? parseInt(params.sequenceId) : null;
+
+  if (!text || !targetLangs || !Array.isArray(targetLangs)) {
+    return ContentService.createTextOutput(
+      JSON.stringify({ error: '無効なリクエストです："text" と "targetLangs" は必須です。', sequenceId })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+  const translations = targetLangs.map(lang => {return translateWithGoogle(text, lang, sourceLang);});
+
+  const result = { translations, sequenceId };
+    return ContentService.createTextOutput(
+      JSON.stringify(result)
+    ).setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(
+      JSON.stringify({ error: 'テキストの翻訳を完了できませんでした: ' + error.message, sequenceId: e.parameter.sequenceId ? parseInt(e.parameter.sequenceId) : null })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+                  
+</code></pre>
+              </div>
+            </div>
+          </div>
+          <ul>
+            <p>Google Apps Scriptファイルを作成するには、以下の手順に従ってください。</p>
+            <li>画面右上の「デプロイ」ボタンをクリックし、「新しいデプロイ」を選択します。</li>
+            <li>「種類を選択」から「ウェブアプリ」を選びます。</li>
+            <li>「次のユーザーとして実行」は「自分（オーナー）」を選択します。</li>
+            <li>「アクセスできるユーザー」は「全員（匿名ユーザーを含む）」を選択します。</li>
+            <li>「デプロイ」をクリックし、表示されたアクセス許可の確認で「許可」を選択します。</li>
+            <li>デプロイ後に表示される「デプロイ IDのID」をコピーします。（このIDがアクセス用のIDになります）</li>
+          </ul>
+          <div class="card" style="margin-top:12px;">
+            <h3>説明スライドショー</h3>
+            <div class="slider" data-slider>
+              <button class="slider-btn prev" data-prev aria-label="前へ">&#8249;</button>
+              <div class="slides">
+                <img class="slide is-active" src="google_tran1.jpg" alt="スライド 1" loading="lazy">
+                <img class="slide" src="google_tran2.jpg" alt="スライド 2" loading="lazy">
+                <img class="slide" src="google_tran3.jpg" alt="スライド 3" loading="lazy">
+                <img class="slide" src="google_tran4.jpg" alt="スライド 4" loading="lazy">
+                <img class="slide" src="google_tran5.jpg" alt="スライド 5" loading="lazy">
+              </div>
+              <button class="slider-btn next" data-next aria-label="次へ">&#8250;</button>
+              <div class="slider-dots" data-dots></div>
+            </div>
+            
+          </div>
+          <h3 id="backend-4-2">4.2 OpenAI翻訳</h3>
+          <ul>
+            <p>OpenAIのAPIを使って翻訳する方法もありますが、GAS経由でOpenAIを呼び出して翻訳すると負荷が大きく、話すスピードに全く追いつけません。そのため、GASでの利用は推奨しません。</p>
+          </ul>
+
+          <h3 id="backend-4-2-1">4.2.1 OpenAI アカウントの作成・API キー発行・支払い方法の登録</h3>
+          <ul>
+            <li><a href="https://platform.openai.com" target="_blank">OpenAI Platform</a> にアクセスし、「Sign up」からアカウントを作成（Google/Microsoft での登録も可）。</li>
+            <li>案内に従ってメール認証と電話番号（SMS）認証を完了します（地域により必要な場合があります）。</li>
+            <li>API キーの発行：左側メニュー「API keys」→「Create new secret key」→ 任意の名称を付けて発行。</li>
+            <li>発行直後に API キーを必ずコピーして安全に保管してください（後から再表示できません）。保管場所の例：環境変数、`.env`、GAS の「プロジェクトのプロパティ」。</li>
+            <li>支払い方法の登録：左側「Billing」→「Payment methods」→「Add payment method」→ クレジットカード情報を入力して登録。</li>
+            <li>利用上限・予算アラートの設定：左側「Billing」→「Usage limits / Budgets」から月額上限と通知を設定し、使い過ぎを防止。</li>
+            <li>組織情報が必要な場合：左下「Settings」→「Organization」で Organization ID を確認（複数組織がある場合など）。</li>
+          </ul>
+          <div class="note" style="margin-top:8px;">
+            API キーは厳重に管理し、フロントエンドのコードや公開リポジトリに直接埋め込まないでください。サーバー経由で呼び出す場合は、サーバー側でキーを保持し、レート制限や認可を実装してください。
+          </div>
+
+          <h3 id="backend-4-3">4.3 Google Cloud アカウント・プロジェクト/課金設定</h3>
+          <ul>
+            <li><a href="https://console.cloud.google.com" target="_blank">Google Cloud Console</a> にアクセスし、Google アカウントでログインします。</li>
+            <li>プロジェクトの作成：ヘッダーのプロジェクトセレクタ →「新しいプロジェクト」→ 名称を入力して作成し、プロジェクト ID を控えます。</li>
+            <li>課金アカウントの用意：左メニュー「お支払い（Billing）」→ 課金アカウントが未作成の場合は画面の案内に従って作成し、クレジットカードを登録します。</li>
+            <li>プロジェクトと課金アカウントの紐付け：「お支払い」→「マイ プロジェクト」→ 対象プロジェクト →「課金アカウントをリンク」。</li>
+            <li>予算とアラートの設定：「お支払い」→「予算とアラート」→ 予算を作成し、50%/90%/100% などのしきい値で通知を設定します。</li>
+            <li>必要に応じて API を有効化：左メニュー「API とサービス」→「ライブラリ」→ 必要な API を検索して有効化（例：Cloud Translation API。GAS の LanguageApp のみを使う場合は通常不要）。</li>
+          </ul>
+          <h3 id="backend-4-4">4.4 Cloud Run (Docker) デプロイ</h3>
+          <p class="muted">GitHub リポジトリ上のコード（Dockerfile 同梱）から Cloud Run にデプロイする想定で説明します。</p>
+          <ul>
+            <li>前提：GCP プロジェクト/課金が有効（4.3 参照）、Cloud Run と Cloud Build API を有効化済み。</li>
+            <li>GitHub Actions でデプロイ（推奨）
+              <ul>
+                <li>サービス アカウントを作成（例：<span class="kbd">sa-cloudrun-deployer</span>）。付与ロール：<span class="kbd">Cloud Run Admin</span>、<span class="kbd">Service Account User</span>、<span class="kbd">Artifact Registry Writer</span>。</li>
+                <li>Workload Identity Federation を設定し、GitHub と連携。<span class="kbd">workload_identity_provider</span> と <span class="kbd">service_account</span> のリソース名を控えます。</li>
+                <li>GitHub リポジトリにシークレットを登録：<span class="kbd">WORKLOAD_IDENTITY_PROVIDER</span>、<span class="kbd">SERVICE_ACCOUNT</span>、<span class="kbd">PROJECT_ID</span>、<span class="kbd">REGION</span>、<span class="kbd">SERVICE</span>。</li>
+                <li>下記のワークフローを <span class="kbd">.github/workflows/deploy.yml</span> に追加して、<span class="kbd">main</span> に push すると自動デプロイされます。</li>
+              </ul>
+            </li>
+            <li>コンテナの準備：リポジトリ直下に <span class="kbd">Dockerfile</span> を配置（例は下記）。</li>
+          </ul>
+          <div class="codeblock">
+            <button class="copy" data-target="gh-actions-cloudrun">複製</button>
+            <pre id="gh-actions-cloudrun"><code class="language-yaml">name: Deploy to Cloud Run
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+      - name: Set up gcloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Deploy to Cloud Run (build from repo)
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ secrets.SERVICE }}
+          region: ${{ secrets.REGION }}
+          source: .
+          flags: --allow-unauthenticated
+</code></pre>
+          </div>
+          <div class="codeblock">
+            <button class="copy" data-target="dockerfile">複製</button>
+            <pre id="dockerfile"><code class="language-docker"># 例: Node.js ベースの簡易 API
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+ENV PORT=8080
+EXPOSE 8080
+CMD ["node", "server.js"]
+</code></pre>
+          </div>
+          <div class="codeblock">
+            <button class="copy" data-target="server-js">複製</button>
+            <pre id="server-js"><code class="language-javascript">// server.js (サンプル) — 必要に応じて差し替えてください
+import express from 'express';
+const app = express();
+const port = process.env.PORT || 8080;
+
+app.get('/health', (_, res) => res.send('ok'));
+app.listen(port, () => console.log('listening on :' + port));
+</code></pre>
+          </div>
+          <h3>5.3 範例請求與回應</h3>
+          <div class="codeblock">
+            <button class="copy" data-target="req1">複製</button>
+            <pre id="req1"><code class="language-http">POST /api/v1/projects HTTP/1.1
+Authorization: Bearer &lt;token&gt;
+Content-Type: application/json
+
+{
+  "name": "第一個專案"
+}
+
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+  "id": "1f2e3d4c-0000-1111-2222-333344445555",
+  "name": "第一個專案",
+  "ownerId": "9aa0f8d0-aaaa-bbbb-cccc-121212121212",
+  "createdAt": "2025-01-01T12:00:00Z"
+}
+</code></pre>
+          </div>
+
+          <h3>5.4 佈署建議</h3>
+          <ul>
+            <li>容器化（Docker），分離應用與資料庫服務。</li>
+            <li>環境變數管理：使用 <span class="kbd">.env</span> 或祕密管理服務。</li>
+            <li>滾動更新與健康檢查，導入觀測性（Metrics／Tracing／Logging）。</li>
+          </ul>
+        </section>
+
+        <section id="faq">
+          <h2>6. 常見問題</h2>
+          <details>
+            <summary>匯入大量資料容易失敗？</summary>
+            <p>建議調整批次大小（如 1000），並檢查伺服器逾時與資料庫連線池上限。</p>
+          </details>
+          <details>
+            <summary>產生報表速度慢？</summary>
+            <p>可預先計算彙總表或使用快取；圖表端僅載入必要欄位。</p>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      本文件為示範範本。請依實際產品名稱、流程與選項調整。
+    </footer>
+
+    <script>
+      // TOC active link on scroll
+      const tocLinks = Array.from(document.querySelectorAll('#toc a'));
+      const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const onScroll = () => {
+        const fromTop = window.scrollY + 100;
+        let activeIndex = 0;
+        sections.forEach((sec, idx) => {
+          if (sec.offsetTop <= fromTop) activeIndex = idx;
+        });
+        tocLinks.forEach((a, i) => a.classList.toggle('active', i === activeIndex));
+      };
+      document.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // Copy buttons
+      document.querySelectorAll('.copy').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const targetId = btn.getAttribute('data-target');
+          const pre = document.getElementById(targetId);
+          if (!pre) return;
+          const text = pre.innerText;
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.textContent = '已複製';
+            setTimeout(() => (btn.textContent = '複製'), 1400);
+          } catch (e) {
+            btn.textContent = '複製失敗';
+            setTimeout(() => (btn.textContent = '複製'), 1400);
+          }
+        });
+      });
+
+      // Simple sliders (no loop, with disabled edges)
+      const initSlider = (root) => {
+        const slides = Array.from(root.querySelectorAll('.slide'));
+        const dotsWrap = root.querySelector('[data-dots]');
+        const nextBtn = root.querySelector('[data-next]');
+        const prevBtn = root.querySelector('[data-prev]');
+        let index = slides.findIndex(s => s.classList.contains('is-active'));
+        if (index < 0) index = 0;
+
+        const renderDots = () => {
+          if (!dotsWrap) return;
+          dotsWrap.innerHTML = '';
+          slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'slider-dot' + (i === index ? ' is-active' : '');
+            dot.setAttribute('aria-label', `スライド ${i+1}`);
+            dot.addEventListener('click', () => goTo(i));
+            dotsWrap.appendChild(dot);
+          });
+        };
+
+        const update = () => {
+          slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+          if (dotsWrap) {
+            Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle('is-active', i === index));
+          }
+          if (prevBtn) prevBtn.disabled = index === 0;
+          if (nextBtn) nextBtn.disabled = index === slides.length - 1;
+        };
+
+        const goTo = (i) => {
+          const clamped = Math.max(0, Math.min(i, slides.length - 1));
+          if (clamped === index) return;
+          index = clamped;
+          update();
+        };
+        const next = () => goTo(index + 1);
+        const prev = () => goTo(index - 1);
+
+        nextBtn?.addEventListener('click', next);
+        prevBtn?.addEventListener('click', prev);
+
+        renderDots();
+        update();
+      };
+
+      document.querySelectorAll('[data-slider]').forEach(initSlider);
+    </script>
+  </body>
+</html>
+
+
