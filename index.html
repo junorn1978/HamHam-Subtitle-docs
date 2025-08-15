@@ -270,8 +270,8 @@ Start-Process .\Installer.exe -ArgumentList "/silent" -Wait
              1つ目は、GASに内蔵されているGoogle翻訳APIを利用する方法です（無料で、1日あたり最大5,000文まで翻訳可能）。<br>
              2つ目は、Google Cloud上にDocker環境を構築して利用するOpenAI翻訳です（有料で、設定が複雑ですが、翻訳精度が高く、より自然な訳文が得られます）。</p>
           <h3 id="backend-4-1">4.1 Google翻訳API</h3>
+          <p>Google Apps Scriptファイルを作成するには、以下の手順に従ってください。</p>
           <ul>
-            <p>Google Apps Scriptファイルを作成するには、以下の手順に従ってください。</p>
             <li>ブラウザで <a href="https://script.google.com" target="_blank">script.google.com</a> を開きます。</li>
             <li>「新しいプロジェクト」ボタンをクリックします。</li>
             <li>プロジェクト名を入力します。</li>
@@ -329,8 +329,8 @@ function doGet(e) {
               </div>
             </div>
           </div>
+          <p>Google Apps Scriptファイルを作成するには、以下の手順に従ってください。</p>
           <ul>
-            <p>Google Apps Scriptファイルを作成するには、以下の手順に従ってください。</p>
             <li>画面右上の「デプロイ」ボタンをクリックし、「新しいデプロイ」を選択します。</li>
             <li>「種類を選択」から「ウェブアプリ」を選びます。</li>
             <li>「次のユーザーとして実行」は「自分（オーナー）」を選択します。</li>
@@ -355,9 +355,7 @@ function doGet(e) {
             
           </div>
           <h3 id="backend-4-2">4.2 OpenAI翻訳</h3>
-          <ul>
-            <p>OpenAIのAPIを使って翻訳する方法もありますが、GAS経由でOpenAIを呼び出して翻訳すると負荷が大きく、話すスピードに全く追いつけません。そのため、GASでの利用は推奨しません。</p>
-          </ul>
+          <p>OpenAIのAPIを使って翻訳する方法もありますが、GAS経由でOpenAIを呼び出して翻訳すると負荷が大きく、話すスピードに全く追いつけません。そのため、GASでの利用は推奨しません。</p>
 
           <h3 id="backend-4-2-1">4.2.1 OpenAI アカウントの作成・API キー発行・支払い方法の登録</h3>
           <ul>
